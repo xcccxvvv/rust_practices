@@ -1,7 +1,3 @@
-extern crate crossbeam;
-extern crate image;
-extern crate num;
-
 use image::codecs::png::PngEncoder;
 use image::ColorType;
 use num::Complex;
@@ -141,7 +137,7 @@ fn main() {
     let rows_per_thread = bounds.1 / threads + 1;
 
     let bands: Vec<&mut [u8]> = pixels.chunks_mut(rows_per_thread * bounds.0).collect();
-    crossbeam::scope(|spawner| {
+    _ = crossbeam::scope(|spawner| {
         for (i, band) in bands.into_iter().enumerate() {
             let top = rows_per_thread * i;
             let height = band.len() / bounds.0;
